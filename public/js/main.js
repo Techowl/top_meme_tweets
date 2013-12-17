@@ -48,12 +48,12 @@ var Controller = {
     e.preventDefault()
     $(".container .tweets").html('')
     var $form = $(event.target)
-    $.post($form.attr('action'), $form.serialize(), Controller.renderTweets.bind(Controller)) // changed
+    $.post($form.attr('action'), $form.serialize(), Controller.renderTweets) // changed
   },
 
   renderTweets: function(tweets) {
     for (var i in tweets) {
-      TEMPLATES.render('tweet', tweets[i], this.appendTweet)
+      TEMPLATES.render('tweet', tweets[i], Controller.appendTweet) // changed
     }
   },
 
