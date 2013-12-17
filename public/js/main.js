@@ -7,9 +7,10 @@ var TEMPLATES = (function() {
 
   return {
     precompile: function(names) {
+      var self = this // added
       for (var i in names) {
         $.get(_tUrl(names[i]), function(source) {
-          this.compileAndCache(names[i], source)
+          self.compileAndCache(names[i], source) // changed
         })
       }
     },
@@ -31,7 +32,7 @@ var TEMPLATES = (function() {
       if (template) {
         renderCallback(template(context))
       } else {
-        $.get(_tUrl(name, compileCacheAndRender)
+        $.get(_tUrl(name, compileCacheAndRender))
       }
     }
   }
@@ -47,13 +48,13 @@ var Controller = {
     e.preventDefault()
     $(".container .tweets").html('')
     var $form = $(event.target)
-    $.post($form.attr('action'), $form.serialize(), this.renderTweets.bind(this))
+    $.post($form.attr('action'), $form.serialize(), Controller.renderTweets.bind(Controller)) // changed
   },
 
   renderTweets: function(tweets) {
     for (var i in tweets) {
       TEMPLATES.render('tweet', tweets[i], this.appendTweet)
-    }}
+    }
   },
 
   appendTweet: function(html) {
